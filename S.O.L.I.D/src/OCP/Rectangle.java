@@ -26,7 +26,7 @@ public class Rectangle implements Shapes {
     }
 
     @Override
-    public double square() {
+    public double area() {
         return width * length;
     }
 }
