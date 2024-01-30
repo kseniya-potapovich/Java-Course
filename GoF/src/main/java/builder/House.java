@@ -2,6 +2,7 @@ package builder;
 
 /**
  * Builder - пошаговое создание сложного объекта
+ * better is connect with library lombok
  */
 public class House {
     private String window;
