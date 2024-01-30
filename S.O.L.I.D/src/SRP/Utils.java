@@ -5,5 +5,5 @@ import java.util.ArrayList;
 public class Utils {
     public static ArrayList<Worker> staff = new ArrayList<>();
 
-    private static final Integer NORMAL = 100;
+    public static final Integer NORMAL = 100;
 }
