@@ -3,12 +3,12 @@ package LSP;
 public class Developer extends Person {
     @Override
     public void eat() {
-        super.eat();
+        System.out.println("I can eat!");
     }
 
     @Override
     public void think() {
-        super.think();
+        System.out.println("I can think!");
     }
 
     public void writeCode() {

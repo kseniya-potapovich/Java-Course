@@ -3,17 +3,17 @@ package LSP;
 public class BackEndDeveloper extends Developer{
     @Override
     public void eat() {
-        super.eat();
+        System.out.println("I can eat!");
     }
 
     @Override
     public void think() {
-        super.think();
+        System.out.println("I can think!");
     }
 
     @Override
     public void writeCode() {
-        super.writeCode();
+        System.out.println("Write some code...");
     }
 
     public void workWithDB(){
