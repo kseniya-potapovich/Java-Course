@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,10 @@ public class JDBC_Example {
 
     private final static String SELECT_ALL_FROM_USERS = "SELECT * FROM users";
     private final static String SELECT_USER_FROM_USERS = "SELECT * FROM users WHERE id = ?";
+    private final static String INSERT_USER_INTO_USERS = "INSERT INTO users(id, username, user_password, created, changed, age)" +
+            "VALUES(DEFAULT,?,?,?,?,?)";
+    private final static String UPDATE_USER_INTO_USERS = "UPDATE users SET username = ?, user_password = ?, changed = ?, age = ? WHERE id = ?";
+    private final static String DELETE_USER_INTO_USERS = "DELETE FROM users WHERE id = ?";
 
     private Connection connection = null;
 
@@ -41,7 +46,7 @@ public class JDBC_Example {
         return users;
     }
 
-    /**----------------CRUD---------------*/
+    /**----------------CRUD------------------*/
 
     /**
      * ---------------READ----------------
@@ -63,6 +68,56 @@ public class JDBC_Example {
             System.out.println(e);
         }
         return user;
+    }
+
+    /**
+     * --------------CREATE-----------------
+     */
+    public boolean createUser(User user) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_INTO_USERS);
+            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(2, user.getUserPassword());
+            preparedStatement.setTimestamp(3, user.getCreated());
+            preparedStatement.setTimestamp(4, user.getChanged());
+            preparedStatement.setInt(5, user.getAge());
+            return preparedStatement.executeUpdate() == 1;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+
+    /**
+     * -----UPDATE-------
+     */
+    public boolean updateUser(User user) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_INTO_USERS);
+            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(2, user.getUserPassword());
+            preparedStatement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+            preparedStatement.setInt(4, user.getAge());
+            preparedStatement.setLong(5, user.getId());
+            return preparedStatement.executeUpdate() == 1;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+
+    /**
+     * ------------DELETE------------------
+     */
+    public boolean deleteUser(Long id) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(DELETE_USER_INTO_USERS);
+            statement.setLong(1, id);
+            return statement.executeUpdate() == 1;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
     }
 
     public User parseUser(ResultSet resultSet) {
