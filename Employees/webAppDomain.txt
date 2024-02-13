@@ -1,0 +1,85 @@
+CREATE TABLE "User"
+(
+    user_id bigserial not null constraint user_pk primary key ,
+    first_name varchar(25) not null ,
+    last_name varchar(25) not null ,
+    email varchar(25) not null ,
+    age decimal not null ,
+    birthday date not null ,
+    login varchar(10),
+    password varchar(10)
+);
+DROP TABLE "User";
+
+CREATE TABLE "User"
+(
+    id bigserial not null constraint user_pk primary key,
+    first_name varchar(20) not null ,
+    last_name varchar(20) not null ,
+    email varchar(20) not null ,
+    age integer not null ,
+    birthday date not null
+);
+INSERT INTO "User" VALUES (1, 'Evgeniy', 'Lepin', 'evgesha@mail.com', 20, '2004-01-03');
+SELECT * FROM "User";
+
+CREATE TABLE "Logins"
+(
+  id bigserial not null constraint logins_pk primary key ,
+    login varchar(10) not null ,
+    password varchar(10) not null ,
+    user_id integer, FOREIGN KEY (user_id) REFERENCES "User"(id)
+);
+
+INSERT INTO "User" VALUES (2, 'Olga', 'Drozd', 'drozd@mail.com', 19, '2004-10-12');
+INSERT INTO "User" VALUES (3,'Daniil', 'Lucik', 'danik@bk.ru', 20, '2003-11-13');
+INSERT INTO "User" VALUES (4, 'Viktoria', 'Cheshko','vikacheshko@mail.com' ,20, '2003-09-09');
+
+INSERT INTO "Logins" VALUES (1, 'olgadrozd', 'weu833df', 2);
+
+CREATE TABLE "Friendships"
+(
+  id bigserial not null primary key ,
+    user1_id integer not null , FOREIGN KEY (user1_id) REFERENCES "User"(id),
+    user2_id integer not null , FOREIGN KEY (user2_id) REFERENCES "User"(id)
+);
+
+CREATE TABLE "Message"
+(
+    id bigserial not null primary key ,
+    id_sender integer not null , FOREIGN KEY (id_sender) REFERENCES "User"(id),
+    id_recipient integer not null , FOREIGN KEY (id_recipient) REFERENCES "User"(id),
+    datetime timestamp not null ,
+    text varchar not null
+);
+
+/*CREATE TABLE "Group"
+(
+    id bigserial not null primary key ,
+    name varchar(20),
+    id_creator integer, FOREIGN KEY (id_creator) REFERENCES "User"(id),
+    id_participants int[], FOREIGN KEY (id_participants) REFERENCES "User"(users)
+);
+*/
+ALTER TABLE "User" ADD users int[];
+
+CREATE TABLE "Notification"
+(
+    id bigserial not null primary key,
+    id_recipient integer not null, FOREIGN KEY (id_recipient) REFERENCES "User"(id),
+    text varchar not null,
+    datetime timestamp not null
+);
+
+CREATE TABLE "Post"
+(
+    id bigserial not null primary key,
+    author varchar not null,
+    id_author integer not null, FOREIGN KEY (id_author) REFERENCES "User"(id),
+    text varchar not null,
+    datetime timestamp not null,
+    likes integer,
+    comments varchar
+);
+
+
