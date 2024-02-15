@@ -19,7 +19,7 @@ public class UserCRUD {
     private final static String CREATE_USER = "INSERT INTO users(id, first_name, last_name, email, age, gender)" +
             "VALUES(DEFAULT,?,?,?,?,?)";
     private final static String UPDATE_USER = "UPDATE users SET first_name = ?, last_name = ?, email = ?, age = ?, gender = ? WHERE id = ?";
-    private final static String DELETE_USER = "DELETE * FROM users WHERE id = ?";
+    private final static String DELETE_USER = "DELETE FROM users WHERE id = ?";
 
     public UserCRUD() throws RuntimeException {
         try {
