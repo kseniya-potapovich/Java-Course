@@ -25,6 +25,6 @@ public class createUser extends HttpServlet {
         //PrintWriter writer = resp.getWriter();
         UserCRUD userCRUD = new UserCRUD();
         userCRUD.addUser(user);
-        resp.sendRedirect("getAll");
+        resp.sendRedirect("index.jsp");
     }
 }

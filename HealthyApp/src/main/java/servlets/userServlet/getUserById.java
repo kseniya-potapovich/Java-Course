@@ -19,8 +19,7 @@ public class getUserById extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
         UserCRUD user = new UserCRUD();
-        PrintWriter writer = resp.getWriter();
-        writer.println(user.getById(Long.valueOf(valueOf(id))));
-        writer.close();
+        req.setAttribute("user", user.getById(Long.valueOf(String.valueOf(id))));
+        getServletContext().getRequestDispatcher("/getUserById.jsp").forward(req, resp);
     }
 }

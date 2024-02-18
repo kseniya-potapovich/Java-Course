@@ -10,5 +10,6 @@ public class Main {
         System.out.println(userCRUD.deleteUser(2L));
         System.out.println(userCRUD.addUser(user));*/
         //System.out.println(userCRUD.getAll());
+       // System.out.println(userCRUD.getById(4L));
     }
 }
