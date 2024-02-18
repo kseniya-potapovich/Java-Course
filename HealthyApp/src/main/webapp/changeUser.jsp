@@ -2,9 +2,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Delete user</title>
+    <title>change user</title>
 </head>
 <body>
-<c:out value="${deleteUser}"/>
+<h2><c:out value="${updateUser}"/></h2>
 </body>
 </html>

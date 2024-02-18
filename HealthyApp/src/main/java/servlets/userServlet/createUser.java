@@ -24,7 +24,7 @@ public class createUser extends HttpServlet {
         User user = new User(Long.valueOf(String.valueOf(id)), firstName, lastName, email, Integer.parseInt(String.valueOf(age)), gender);
         //PrintWriter writer = resp.getWriter();
         UserCRUD userCRUD = new UserCRUD();
-        userCRUD.addUser(user);
-        resp.sendRedirect("index.jsp");
+        req.setAttribute("createUser",userCRUD.addUser(user));
+        getServletContext().getRequestDispatcher("/responseUser.jsp").forward(req, resp);
     }
 }

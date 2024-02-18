@@ -17,7 +17,7 @@ public class deleteUser extends HttpServlet {
         String id = req.getParameter("id");
         //PrintWriter writer = resp.getWriter();
         UserCRUD user = new UserCRUD();
-        user.deleteUser(Long.valueOf(id));
-        getServletContext().getRequestDispatcher("/getAll").forward(req, resp);
+        req.setAttribute("deleteUser",user.deleteUser(Long.valueOf(id)));
+        getServletContext().getRequestDispatcher("/deleteUser.jsp").forward(req, resp);
     }
 }

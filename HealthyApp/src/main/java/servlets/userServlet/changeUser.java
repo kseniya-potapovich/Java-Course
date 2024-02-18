@@ -24,7 +24,7 @@ public class changeUser extends HttpServlet {
         String gender = req.getParameter("gender");
         User user = new User(Long.valueOf(String.valueOf(id)), firstName, lastName, email, Integer.parseInt(String.valueOf(age)), gender);
         UserCRUD userCRUD = new UserCRUD();
-        userCRUD.updateUser(user);
-        getServletContext().getRequestDispatcher("/getAll").forward(req, resp);
+        req.setAttribute("updateUser", userCRUD.updateUser(user));
+        getServletContext().getRequestDispatcher("/changeUser.jsp").forward(req, resp);
     }
 }
