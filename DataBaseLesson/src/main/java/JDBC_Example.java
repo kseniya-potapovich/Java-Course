@@ -135,6 +135,30 @@ public class JDBC_Example {
         return user;
     }
 
+    public boolean checkTransaction() {
+        try {
+            connection.setAutoCommit(false);
+            PreparedStatement statementAge = connection.prepareStatement("UPDATE users SET age = 100 WHERE id = 13");
+            PreparedStatement statementUserName = connection.prepareStatement("UPDATE users SET username = 'USER_TRANSACTION' WHERE id = 13");
+            PreparedStatement statementPassword = connection.prepareStatement("UPDATE users SET user_password = 'USER_PASS' WHERE id = 13");
+            statementAge.executeUpdate();
+            statementUserName.executeUpdate();
+            statementPassword.executeUpdate();
+            connection.commit();
+            connection.setAutoCommit(true);
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            try {
+                connection.rollback();
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }
+        return false;
+    }
+
     /* public void findAll() {
         try {
             //1. Регистрация драйвера
