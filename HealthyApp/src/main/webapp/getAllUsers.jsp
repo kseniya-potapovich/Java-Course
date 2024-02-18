@@ -9,12 +9,6 @@
 <h1 style="text-align: center">All users:</h1>
 <ul>
     <c:forEach var="u" items="${users}">
-     <%--   ${u.getId}
-        ${u.getFirstName}
-        ${u.getLastName}
-        ${u.getEmail}
-        ${u.getAge}
-        ${u.getGender}--%>
         <c:out value="${u}"/>
     </c:forEach>
 </ul>
