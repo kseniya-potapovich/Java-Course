@@ -2,6 +2,8 @@ package crud;
 
 import models.User;
 
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
         UserCRUD userCRUD = new UserCRUD();
@@ -11,5 +13,11 @@ public class Main {
         System.out.println(userCRUD.addUser(user));*/
         //System.out.println(userCRUD.getAll());
         // System.out.println(userCRUD.getById(4L));
+
+        /*List<User> userList = userCRUD.getAll();
+        for (User user:userList){
+            System.out.println(user.getId());
+            System.out.println(user.getFirstName());
+        }*/
     }
 }

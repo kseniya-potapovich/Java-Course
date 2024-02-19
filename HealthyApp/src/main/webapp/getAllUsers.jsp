@@ -4,10 +4,11 @@
 <html>
 <head>
     <title>All users</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body>
+<body style="text-align: center">
 <h1 style="text-align: center">All users:</h1>
-<table>
+<table style="text-align: center">
     <tr>
         <th>ID</th>
         <th>First Name</th>
@@ -19,25 +20,28 @@
     <c:forEach var="u" items="${users}">
         <tr>
             <td>
-                <c:out value="${u.getId}"/>
+                ${u.getId()}
             </td>
             <td>
-                <c:out value="${u.getFirstName}"/>
+                ${u.getFirstName()}
             </td>
             <td>
-                <c:out value="${u.getLastName}"/>
+                ${u.getLastName()}
             </td>
             <td>
-                <c:out value="${u.getEmail}"/>
+                ${u.getEmail()}
             </td>
             <td>
-                <c:out value="${u.getAge}"/>
+                ${u.getAge()}
             </td>
             <td>
-                <c:out value="${u.getGender}"/>
+                ${u.getGender()}
             </td>
         </tr>
     </c:forEach>
 </table>
+<form action="index.jsp">
+    <input type="submit" value="continue" class="button">
+</form>
 </body>
 </html>
