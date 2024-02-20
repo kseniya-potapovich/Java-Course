@@ -6,7 +6,7 @@
 </head>
 <body style="text-align: center">
 <h1>Choose what you want to do</h1>
-<form action="get" method="get">
+<form action="userId.jsp" method="get">
     <h3>If you want to get user by id click here</h3>
     <input type="submit" value="get user by id" class="button">
 </form>
@@ -14,7 +14,7 @@
     <h1>Else if you want to add user</h1>
     <input type="submit" value="add user" class="button">
 </form>
-<form action="deleteUser" method="get">
+<form action="deleteUserId.jsp" method="get">
     <h1>And you can delete user</h1>
     <input type="submit" value="delete user" class="button">
 </form>

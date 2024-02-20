@@ -2,15 +2,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Get user by ID</title>
+    <title>input delete user</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body style="text-align: center">
-<h1>Your user:</h1>
-<c:out value="${user}"/>
-<br>
-<form action="index.jsp">
-    <input type="submit" value="continue" class="button">
+<body>
+<form action="deleteUser" method="get">
+    ID: <input type="text" name="id"><input type="submit" value="delete">
 </form>
 </body>
 </html>

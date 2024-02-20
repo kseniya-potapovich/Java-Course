@@ -40,6 +40,7 @@
         </tr>
     </c:forEach>
 </table>
+<br>
 <form action="index.jsp">
     <input type="submit" value="continue" class="button">
 </form>

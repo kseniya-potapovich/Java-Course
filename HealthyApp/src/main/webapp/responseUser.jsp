@@ -14,6 +14,7 @@
         <h1>The user has not been added</h1>
     </c:when>
 </c:choose>
+<br>
 <form action="index.jsp">
     <input type="submit" value="continue" class="button">
 </form>

@@ -15,8 +15,5 @@
     Gender: <input type="text" name="gender"><br>
     <input type="submit" value="create user">
 </form>
-<form action="index.jsp">
-    <input type="submit" value="continue" class="button">
-</form>
 </body>
 </html>
