@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>input delete user</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="property/style.css">
 </head>
 <body>
 <form action="deleteUser" method="get">

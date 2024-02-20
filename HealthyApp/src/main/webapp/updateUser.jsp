@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Update User</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="property/style.css">
 </head>
 <body style="text-align: center">
 <form action="changeUser" method="get">

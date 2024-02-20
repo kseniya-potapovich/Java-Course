@@ -11,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class friendshipCRUD {
+public class FriendshipCRUD {
     private Connection connection = null;
     private final static String SELECT_ALL = "SELECT * FROM friendship";
     private final static String CREATE_FRIENDSHIP = "INSERT INTO friendship(id, user_id, friend_id)"
@@ -20,7 +20,7 @@ public class friendshipCRUD {
     private final static String UPDATE_FRIENDSHIP = "UPDATE friendship SET user_id = ?, friend_id = ? WHERE id = ?";
     private final static String DELETE_FRIENDSHIP = "DELETE FROM friendship WHERE id = ?";
 
-    public friendshipCRUD() {
+    public FriendshipCRUD() {
         try {
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/webApp", "postgres", "root");

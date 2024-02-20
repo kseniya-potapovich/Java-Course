@@ -1,15 +1,12 @@
+package repository;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Types;
 
-public class JDBC_Example {
+public class UserRepository {
 
     private final static String SELECT_ALL_FROM_USERS = "SELECT * FROM users";
     private final static String SELECT_USER_FROM_USERS = "SELECT * FROM users WHERE id = ?";
@@ -17,10 +14,12 @@ public class JDBC_Example {
             "VALUES(DEFAULT,?,?,?,?,?)";
     private final static String UPDATE_USER_INTO_USERS = "UPDATE users SET username = ?, user_password = ?, changed = ?, age = ? WHERE id = ?";
     private final static String DELETE_USER_INTO_USERS = "DELETE FROM users WHERE id = ?";
+    private final static String MOST_OLDER_USER = "{? = call max_old_from_users()}";
+    private final static String DROP_TELEPHONE_TABLE = "call TRANCATE_TELEPHONE()";
 
     private Connection connection = null;
 
-    public JDBC_Example() {
+    public UserRepository() {
         try {
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/c71_database", "postgres", "root");
@@ -29,13 +28,13 @@ public class JDBC_Example {
         }
     }
 
-    public List<User> findAll() {
-        List<User> users = new ArrayList<>();
+   /* public List<model.User> findAll() {
+        List<model.User> users = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(SELECT_ALL_FROM_USERS);
             while (resultSet.next()) {
-                User user = parseUser(resultSet);
+                model.User user = parseUser(resultSet);
                 if (user.getId() != null) {
                     users.add(user);
                 }
@@ -46,14 +45,14 @@ public class JDBC_Example {
         return users;
     }
 
-    /**----------------CRUD------------------*/
+    *//**----------------CRUD------------------*//*
 
-    /**
+     *//**
      * ---------------READ----------------
-     */
+     *//*
     //достать объект из БД
-    public User getUserById(Long id) {
-        User user = new User();
+    public model.User getUserById(Long id) {
+        model.User user = new model.User();
         try {
             PreparedStatement statement = connection.prepareStatement(SELECT_USER_FROM_USERS);
             statement.setLong(1, id);
@@ -70,10 +69,10 @@ public class JDBC_Example {
         return user;
     }
 
-    /**
+    *//**
      * --------------CREATE-----------------
-     */
-    public boolean createUser(User user) {
+     *//*
+    public boolean createUser(model.User user) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_INTO_USERS);
             preparedStatement.setString(1, user.getUsername());
@@ -88,10 +87,10 @@ public class JDBC_Example {
         return false;
     }
 
-    /**
+    *//**
      * -----UPDATE-------
-     */
-    public boolean updateUser(User user) {
+     *//*
+    public boolean updateUser(model.User user) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_INTO_USERS);
             preparedStatement.setString(1, user.getUsername());
@@ -106,9 +105,11 @@ public class JDBC_Example {
         return false;
     }
 
+    */
+
     /**
      * ------------DELETE------------------
-     */
+     *//*
     public boolean deleteUser(Long id) {
         try {
             PreparedStatement statement = connection.prepareStatement(DELETE_USER_INTO_USERS);
@@ -120,8 +121,8 @@ public class JDBC_Example {
         return false;
     }
 
-    public User parseUser(ResultSet resultSet) {
-        User user = new User();
+    public model.User parseUser(ResultSet resultSet) {
+        model.User user = new model.User();
         try {
             user.setId(resultSet.getLong("id"));
             user.setUsername(resultSet.getString("username"));
@@ -155,6 +156,30 @@ public class JDBC_Example {
             } catch (SQLException ex) {
                 System.out.println(ex);
             }
+        }
+        return false;
+    }
+*/
+    public String getUsernameOfTheMostOldUserFunction() {
+        String result_username = null;
+        try {
+            CallableStatement statement = connection.prepareCall(MOST_OLDER_USER);
+            statement.registerOutParameter(1, Types.VARCHAR);
+            statement.executeUpdate();
+            result_username = statement.getString(1);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return result_username;
+    }
+
+    public boolean dropTelephoneTableProcedure() {
+        try {
+            CallableStatement statement = connection.prepareCall(DROP_TELEPHONE_TABLE);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
         }
         return false;
     }

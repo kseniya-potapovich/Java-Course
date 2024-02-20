@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Get user by ID</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="property/style.css">
 </head>
 <body style="text-align: center">
 <h1>Your user:</h1>

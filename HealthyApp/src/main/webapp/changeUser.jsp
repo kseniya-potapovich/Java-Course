@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>change user result</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="property/style.css">
 </head>
 <body style="text-align: center">
 <c:choose>

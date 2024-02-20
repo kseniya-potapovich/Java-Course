@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>All users</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="property/style.css">
 </head>
 <body style="text-align: center">
 <h1 style="text-align: center">All users:</h1>

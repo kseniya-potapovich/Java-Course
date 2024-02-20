@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Main page</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="property/style.css">
 </head>
 <body style="text-align: center">
 <h1>Choose what you want to do</h1>

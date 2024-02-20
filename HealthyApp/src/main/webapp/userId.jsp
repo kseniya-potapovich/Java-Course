@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>input user id</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="property/style.css">
 </head>
 <body>
 <form action="get" method="get">

@@ -11,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class goalCRUD {
+public class GoalCRUD {
     private Connection connection;
     private final static String SELECT_ALL_FROM_GOALS = "SELECT * FROM goals";
     private final static String CREATE_GOAL = "INSERT INTO goals(id, user_id, type, description, date_start, date_finish)"
@@ -20,7 +20,7 @@ public class goalCRUD {
     private final static String UPDATE_GOAL = "UPDATE goals SET user_id = ?, type = ?, description = ?, date_start = ?, date_finish = ? WHERE id = ?";
     private final static String DELETE_GOAL = "DELETE FROM goals WHERE id = ?";
 
-    public goalCRUD() {
+    public GoalCRUD() {
         try {
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/webApp", "postgres", "root");
