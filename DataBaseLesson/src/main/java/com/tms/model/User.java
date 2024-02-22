@@ -1,4 +1,4 @@
-package model;
+package com.tms.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,7 +12,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @Data //POJO - plain old java object (модель, сущность)
 @AllArgsConstructor
