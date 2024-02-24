@@ -1,4 +1,4 @@
-package crud;
+package repository;
 
 import models.Friendship;
 

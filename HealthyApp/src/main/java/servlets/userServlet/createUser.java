@@ -1,6 +1,6 @@
 package servlets.userServlet;
 
-import crud.UserCRUD;
+import repository.UserRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import models.User;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 @WebServlet("/createUser")
 public class createUser extends HttpServlet {
@@ -23,7 +22,7 @@ public class createUser extends HttpServlet {
         String gender = req.getParameter("gender");
         User user = new User(Long.valueOf(String.valueOf(id)), firstName, lastName, email, Integer.parseInt(String.valueOf(age)), gender);
         //PrintWriter writer = resp.getWriter();
-        UserCRUD userCRUD = new UserCRUD();
+        UserRepository userCRUD = new UserRepository();
         req.setAttribute("createUser",userCRUD.addUser(user));
         getServletContext().getRequestDispatcher("/responseUser.jsp").forward(req, resp);
     }
