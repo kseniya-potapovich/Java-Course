@@ -9,31 +9,6 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         UserRepository userRepository = new UserRepository();
-
-        /*User user = new User();
-        user.setUsername("Dima");
-        user.setUserPassword("poiji");
-        user.setCreated(new Timestamp(System.currentTimeMillis()));
-        user.setChanged(new Timestamp(System.currentTimeMillis()));
-        user.setAge(56);
-
-        userRepository.createUser(user);*/
-
-        //userRepository.deleteUser(8L);
-
-        /*User user = new User();
-        user.setId(13L);
-        user.setUsername("Nikita");
-        user.setUserPassword("sapog");
-        user.setCreated(new Timestamp(System.currentTimeMillis()));
-        user.setChanged(new Timestamp(System.currentTimeMillis()));
-        user.setAge(90);
-*/
-        /*User user = userRepository.findById(13L);
-        System.out.println(user);
-        user.setUsername("Andrey");
-        System.out.println(userRepository.updateUser(user));*/
-
-
+        System.out.println(userRepository.findById(13L));
     }
 }
