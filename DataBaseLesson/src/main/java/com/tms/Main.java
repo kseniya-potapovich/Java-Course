@@ -34,7 +34,6 @@ public class Main {
         user.setUsername("Andrey");
         System.out.println(userRepository.updateUser(user));*/
 
-        List<User> users = userRepository.findAll();
-        System.out.println(users);
+
     }
 }

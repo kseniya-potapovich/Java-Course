@@ -1,36 +1,30 @@
 package com.tms.repository;
 
 import com.tms.model.User;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.Query;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
 public class UserRepository {
-    private EntityManager entityManager = null;
+    private Session session = null;
 
     public UserRepository() {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("default");
-        entityManager = factory.createEntityManager();
+        SessionFactory factory = new Configuration().configure().buildSessionFactory();
+        session = factory.openSession();
     }
 
-    /**
-     * JPQL
-     */
     public List<User> findAll() {
-       /* Query query = entityManager.createNativeQuery("SELECT * FROM users", User.class);
-        return query.getResultList();*/
-
-        //JPQL
-        Query query = entityManager.createQuery("FROM users", User.class); //users не таблица, а название entity
+        Query<User> query = session.createQuery("FROM users", User.class); //users не таблица, а название entity
         return query.getResultList();
     }
 
     public User findById(Long id) {
         try {
-            return entityManager.find(User.class, id);
+            return session.get(User.class, id);
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -39,24 +33,25 @@ public class UserRepository {
 
     public boolean createUser(User user) {
         try {
-            entityManager.getTransaction().begin(); //start transaction
-            entityManager.persist(user); //save
-            entityManager.getTransaction().commit(); //commit(fix changes)
+            session.getTransaction().begin();
+            session.persist(user);
+            session.getTransaction().commit();
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            session.getTransaction().rollback();
+            System.out.println(e);
         }
         return false;
     }
 
     public boolean updateUser(User user) { //лучше делать для полей, которые часто меняются и для каждого поля свой метод, example: updateUserPassword()
         try {
-            entityManager.getTransaction().begin();
-            entityManager.merge(user);
-            entityManager.getTransaction().commit();
+            session.getTransaction().begin();
+            session.merge(user);
+            session.getTransaction().commit();
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            session.getTransaction().rollback();
             System.out.println(e);
         }
         return false;
@@ -64,12 +59,12 @@ public class UserRepository {
 
     public boolean deleteUser(Long id) {
         try {
-            entityManager.getTransaction().begin();
-            entityManager.remove(entityManager.find(User.class, id));
-            entityManager.getTransaction().commit();
+            session.getTransaction().begin();
+            session.remove(session.get(User.class, id));
+            session.getTransaction().commit();
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            session.getTransaction().rollback();
             System.out.println(e);
         }
         return false;
