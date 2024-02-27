@@ -2,9 +2,6 @@ package com.tms.repository;
 
 import com.tms.model.User;
 
-import jakarta.persistence.criteria.CriteriaDelete;
-import jakarta.persistence.criteria.CriteriaUpdate;
-import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -61,7 +58,7 @@ public class UserRepository {
             session.merge(user);
             session.getTransaction().commit();*/
 
-            Query<User> query = session.createQuery("update users  set username =:un, userPassword=:up, created=:cr,changed=:ch, age=:age where id=:userId");
+            Query<User> query = session.createQuery("update users  set username =:un, userPassword=:up, created=:cr,changed=:ch, age=:age where id=:userId", User.class);
             query.setParameter("un", user.getUsername());
             query.setParameter("up", user.getUserPassword());
             query.setParameter("cr", user.getCreated());
@@ -85,7 +82,7 @@ public class UserRepository {
             session.remove(session.get(User.class, id));
             session.getTransaction().commit();*/
 
-            Query<User> query = session.createQuery("delete users where id=:userId");
+            Query<User> query = session.createQuery("delete from users where id=:userId", User.class);
             query.setParameter("userId", id);
 
             session.getTransaction().begin();
