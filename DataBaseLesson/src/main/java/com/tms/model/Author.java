@@ -2,14 +2,24 @@ package com.tms.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.SequenceGenerator;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+import java.util.Collection;
 
 @Entity(name = "author")
 @Data
+@ToString(exclude = "books")
+@EqualsAndHashCode(exclude = "books")
 public class Author {
 
     @Id
@@ -19,4 +29,10 @@ public class Author {
 
     @Column(name = "author_name")
     private String authorName;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "l_author_book",
+            joinColumns = @JoinColumn(name = "author_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id"))
+    private Collection<Book> books;
 }

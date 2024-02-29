@@ -16,26 +16,26 @@ public class PageRepository {
         sessionFactory = new Configuration().configure().buildSessionFactory();
     }
 
-    public ArrayList<Page> getAllPages(){
+    public ArrayList<Page> getAllPages() {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        Query<Page> query = session.createQuery("from pages");
+        Query<Page> query = session.createQuery("from pages", Page.class);
         ArrayList<Page> list = (ArrayList<Page>) query.getResultList();
         session.getTransaction().commit();
         session.close();
         return list;
     }
 
-    public Page getPageById(int id){
+    public Page getPageById(int id) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        Page page = session.get(Page.class,id);
+        Page page = session.get(Page.class, id);
         session.getTransaction().commit();
         session.close();
         return page;
     }
 
-    public void createPage(Page page){
+    public void createPage(Page page) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.save(page);
@@ -43,7 +43,7 @@ public class PageRepository {
         session.close();
     }
 
-    public void updatePage(Page page){
+    public void updatePage(Page page) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.saveOrUpdate(page);
@@ -51,7 +51,7 @@ public class PageRepository {
         session.close();
     }
 
-    public void deletePage(Page page){
+    public void deletePage(Page page) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.delete(page);
