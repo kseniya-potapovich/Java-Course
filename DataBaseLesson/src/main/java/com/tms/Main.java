@@ -1,19 +1,24 @@
 package com.tms;
 
-import com.tms.model.Author;
-import com.tms.model.Book;
-import com.tms.model.Page;
-import com.tms.model.User;
-import com.tms.repository.AuthorRepository;
-import com.tms.repository.BookRepository;
-import com.tms.repository.PageRepository;
-import com.tms.repository.UserRepository;
-
-import java.sql.Timestamp;
-import java.util.List;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Main {
     public static void main(String[] args) {
+
+        /** 1. Create Spring Container(ApplicationContext) */
+        ApplicationContext context = new ClassPathXmlApplicationContext("settings.xml"); // если настраиваем через xml
+        Cap capBean = (Cap) context.getBean("cap");
+        Cap capBean2 = (Cap) context.getBean("cap");
+        System.out.println(capBean);
+        System.out.println(capBean2);
+        System.out.println(capBean.hashCode());
+        System.out.println(capBean2.hashCode());
+        capBean2.setText("Hello!!!!");
+        System.out.println(capBean);
+        System.out.println(capBean2);
+        System.out.println(capBean.hashCode());
+        System.out.println(capBean2.hashCode());
 
     }
 }
