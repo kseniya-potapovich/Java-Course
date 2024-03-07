@@ -7,8 +7,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class Cap {
     public String text;
-
-    //1. первый способ - это через поле (autowired)
-    @Autowired
     public Inner inner;
+
+    //2. с помощью конструктора (the best)
+    @Autowired
+    public Cap(Inner inner) {
+        this.inner = inner;
+    }
 }
