@@ -12,6 +12,6 @@ public class Main {
         /** 1. Create Spring Container(ApplicationContext) */
         ApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
         Cap capBean = (Cap) context.getBean("cap");
-        System.out.println(capBean.inner);
+        System.out.println(capBean.getInner());
     }
 }

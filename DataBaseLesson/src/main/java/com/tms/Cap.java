@@ -7,11 +7,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class Cap {
     public String text;
-    public Inner inner;
+    private Inner inner;
 
-    //2. с помощью конструктора (the best)
+    @Override
+    public String toString() {
+        return "Cap{" +
+                "text='" + text + '\'' +
+                ", inner=" + inner +
+                '}';
+    }
+
+    //3. с помощью setter
     @Autowired
-    public Cap(Inner inner) {
+    public void setInner(Inner inner) {
         this.inner = inner;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public Inner getInner() {
+        return inner;
     }
 }
