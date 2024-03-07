@@ -1,8 +1,7 @@
 package com.tms;
 
-import lombok.Data;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Inner implements InterfaceInner{
+public class InnerSecond implements InterfaceInner{
 }
