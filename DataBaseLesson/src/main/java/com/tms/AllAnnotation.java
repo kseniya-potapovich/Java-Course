@@ -12,6 +12,8 @@ public class AllAnnotation {
     @Qualifier - определяет какой из бинов нужно заавтовайрить
     @Primary - определяет какой из бинов более главный
     @Bean - объект, который контролируется Spring
-    @Scope -
+    @Scope - логика создания бина (когда)
+    @PostConstruct - метод init бина
+    @PreDestroy - метод destroy бина, работает только с @Scope("singleton")
     */
 }
