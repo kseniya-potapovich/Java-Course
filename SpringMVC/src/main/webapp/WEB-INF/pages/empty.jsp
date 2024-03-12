@@ -2,15 +2,15 @@
   Created by IntelliJ IDEA.
   User: Ксения
   Date: 3/12/2024
-  Time: 9:14 PM
+  Time: 9:44 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Failure</title>
+    <title>EMPTY</title>
 </head>
 <body>
-This is failure page from UserController
+<h1>We don't have result!</h1>
 </body>
 </html>
