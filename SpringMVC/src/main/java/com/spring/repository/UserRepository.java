@@ -33,7 +33,7 @@ public class UserRepository {
         return null;
     }
 
-    public boolean createUser(User user) {
+    public Boolean createUser(User user) {
         try {
             session.getTransaction().begin();
             session.persist(user);
@@ -46,7 +46,7 @@ public class UserRepository {
         return false;
     }
 
-    public boolean updateUser(User user) {
+    public Boolean updateUser(User user) {
         try {
             session.getTransaction().begin();
             session.merge(user);
@@ -59,7 +59,7 @@ public class UserRepository {
         return false;
     }
 
-    public boolean updateUserPassword(String password, Long id) {
+    public Boolean updateUserPassword(String password, Long id) {
         try {
             User user = session.get(User.class, id);
             user.setUserPassword(password);
@@ -74,7 +74,7 @@ public class UserRepository {
         return false;
     }
 
-    public boolean deleteUser(Long id) {
+    public Boolean deleteUser(Long id) {
         try {
             session.getTransaction().begin();
             session.remove(session.get(User.class, id));
