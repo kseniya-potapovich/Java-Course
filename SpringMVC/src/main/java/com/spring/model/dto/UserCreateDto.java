@@ -1,8 +1,6 @@
 package com.spring.model.dto;
 
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
+import com.spring.annotations.Adult;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -19,8 +17,7 @@ public class UserCreateDto {
     @Size(min = 6, max = 15)
     private String userPassword;
 
-    @Min(18)
-    @Max(100)
+    @Adult
     @NotNull
     private Integer age;
 }
