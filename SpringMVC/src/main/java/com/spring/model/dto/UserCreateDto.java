@@ -17,7 +17,6 @@ public class UserCreateDto {
     @Size(min = 6, max = 15)
     private String userPassword;
 
-    @Adult
     @NotNull
     private Integer age;
 }

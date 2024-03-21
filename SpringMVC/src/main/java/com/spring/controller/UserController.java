@@ -1,15 +1,20 @@
 package com.spring.controller;
 
+import com.spring.exceptions.CustomValidException;
 import com.spring.model.User;
 import com.spring.model.dto.UserCreateDto;
 import com.spring.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,10 +64,7 @@ public class UserController {
     @PostMapping
     public String createUser(@ModelAttribute @Valid UserCreateDto user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            for (ObjectError error : bindingResult.getAllErrors()) {
-                System.out.println(error.toString());
-            }
-            return "failure";
+            throw new CustomValidException(bindingResult.getAllErrors().toString());
         }
         return userService.createUser(user) ? "success" : "failure";
     }
@@ -73,5 +75,16 @@ public class UserController {
                              @RequestParam("userPassword") String userPassword,
                              @RequestParam("age") Integer age) {
         return userService.updateUser(id, username, userPassword, age) ? "success" : "failure";
+    }
+
+    @ExceptionHandler(CustomValidException.class)
+    public ModelAndView customValidExceptionHandler(Exception exception, HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("error", exception);
+        modelAndView.addObject("url", request.getRequestURI());
+        modelAndView.setViewName("failure");
+        modelAndView.setStatus(HttpStatusCode.valueOf(400));
+      /*  System.out.println(exception);*/
+        return modelAndView;
     }
 }

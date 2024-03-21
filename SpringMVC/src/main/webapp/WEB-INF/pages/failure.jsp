@@ -12,5 +12,8 @@
 </head>
 <body>
 This is failure page from UserController
+
+${url}
+${error}
 </body>
 </html>
