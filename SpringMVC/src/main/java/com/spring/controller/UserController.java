@@ -5,6 +5,7 @@ import com.spring.model.User;
 import com.spring.model.dto.UserCreateDto;
 import com.spring.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -47,34 +48,55 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public String getUserById(@PathVariable Long id, ModelMap modelMap) { //@PathVariable - если мы хотим достать из пути
+    public String getUserById(@PathVariable Long id, ModelMap modelMap, HttpServletResponse httpServletResponse) { //@PathVariable - если мы хотим достать из пути
         Optional<User> user = userService.getUserById(id);
         if (user.isPresent()) {
             modelMap.addAttribute("user", user.get());
+            httpServletResponse.setStatus(200);
             return "get_user_by_id";
         }
+        httpServletResponse.setStatus(404);
         return "empty";
     }
 
     @PostMapping("/{id}")
-    public String deleteUser(@PathVariable Long id) {
-        return userService.deleteUser(id) ? "success" : "failure";
+    public String deleteUser(@PathVariable Long id, HttpServletResponse response) {
+        if (userService.deleteUser(id)) {
+            response.setStatus(204);
+            return "success";
+        } else {
+            response.setStatus(409);
+            return "failure";
+        }
     }
 
     @PostMapping
-    public String createUser(@ModelAttribute @Valid UserCreateDto user, BindingResult bindingResult) {
+    public String createUser(@ModelAttribute @Valid UserCreateDto user, BindingResult bindingResult, HttpServletResponse response) {
         if (bindingResult.hasErrors()) {
             throw new CustomValidException(bindingResult.getAllErrors().toString());
         }
-        return userService.createUser(user) ? "success" : "failure";
+        if (userService.createUser(user)) {
+            response.setStatus(201);
+            return "success";
+        } else {
+            response.setStatus(409);
+            return "failure";
+        }
     }
 
     @PostMapping("/update")
     public String updateUser(@RequestParam("id") Long id,
                              @RequestParam("username") String username,
                              @RequestParam("userPassword") String userPassword,
-                             @RequestParam("age") Integer age) {
-        return userService.updateUser(id, username, userPassword, age) ? "success" : "failure";
+                             @RequestParam("age") Integer age,
+                             HttpServletResponse response) {
+        if (userService.updateUser(id, username, userPassword, age)) {
+            response.setStatus(204);
+            return "success";
+        } else {
+            response.setStatus(409);
+            return "failure";
+        }
     }
 
     @ExceptionHandler(CustomValidException.class)
@@ -84,7 +106,7 @@ public class UserController {
         modelAndView.addObject("url", request.getRequestURI());
         modelAndView.setViewName("failure");
         modelAndView.setStatus(HttpStatusCode.valueOf(400));
-      /*  System.out.println(exception);*/
+        System.out.println(exception);
         return modelAndView;
     }
 }
