@@ -13,13 +13,11 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-    private UserRepository userRepository;
-    private User user;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, User user) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.user = user;
     }
 
     public List<User> getAllUsers() {
@@ -27,24 +25,27 @@ public class UserService {
     }
 
     public Optional<User> getUserById(Long id) {
-        return Optional.ofNullable(userRepository.findById(id));
+        return userRepository.findById(id);
     }
 
     public Boolean deleteUser(Long id) {
-        return userRepository.deleteUser(id);
+        userRepository.deleteById(id);
+        return getUserById(id).isEmpty();
     }
 
     public Boolean createUser(UserCreateDto userFromDto) {
+        User user = new User();
         user.setUserPassword(userFromDto.getUserPassword());
         user.setUsername(userFromDto.getUsername());
         user.setAge(userFromDto.getAge());
         user.setCreated(Timestamp.valueOf(LocalDateTime.now()));
         user.setChanged(Timestamp.valueOf(LocalDateTime.now()));
-        return userRepository.createUser(user);
+        User newUser = userRepository.save(user);
+        return getUserById(newUser.getId()).isPresent();
     }
 
     public Boolean updateUser(Long id, String username, String userPassword, Integer age) {
-        Optional<User> user1 = Optional.ofNullable(userRepository.findById(id));
+        Optional<User> user1 = userRepository.findById(id);
         if (user1.isPresent()) {
             User user2 = user1.get();
             if (username != null) {
@@ -57,7 +58,8 @@ public class UserService {
                 user2.setAge(age);
             }
             user2.setChanged(Timestamp.valueOf(LocalDateTime.now()));
-            return userRepository.updateUser(user2);
+            User updateUser = userRepository.saveAndFlush(user2);
+            return user2.equals(updateUser);
         }
         return false;
     }
