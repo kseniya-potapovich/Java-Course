@@ -21,7 +21,7 @@ public class UserService {
     }
 
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.customGetAll();
     }
 
     public Optional<User> getUserById(Long id) {
