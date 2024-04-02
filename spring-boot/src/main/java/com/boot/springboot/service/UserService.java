@@ -4,6 +4,9 @@ import com.boot.springboot.model.User;
 import com.boot.springboot.model.dto.UserCreateDto;
 import com.boot.springboot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -62,5 +65,13 @@ public class UserService {
             return user2.equals(updateUser);
         }
         return false;
+    }
+
+    public List<User> getUsersAndSortByField(String field){
+        return userRepository.findAll(Sort.by(field));
+    }
+
+    public List<User> getUsersWithPagination(int size, int page){
+        return userRepository.findAll(Pageable.ofSize(size).withPage(page)).getContent();
     }
 }

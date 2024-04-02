@@ -104,4 +104,22 @@ public class UserController {
         System.out.println(exception);
         return modelAndView;
     }
+
+    @GetMapping("/sort/{field}")
+    public ModelAndView getAllUsersAndSortByField(ModelAndView modelAndView, @PathVariable String field) {
+        List<User> users = userService.getUsersAndSortByField(field);
+        modelAndView.setViewName(users.isEmpty() ? "empty" : "get_users");
+        modelAndView.addObject("users", users);
+        modelAndView.setStatus(HttpStatusCode.valueOf(200));
+        return modelAndView;
+    }
+
+    @GetMapping("/paging/{size}/{page}")
+    public ModelAndView getAllUsersWithPagination(ModelAndView modelAndView, @PathVariable int size, @PathVariable int page) {
+        List<User> users = userService.getUsersWithPagination(size, page);
+        modelAndView.setViewName(users.isEmpty() ? "empty" : "get_users");
+        modelAndView.addObject("users", users);
+        modelAndView.setStatus(HttpStatusCode.valueOf(200));
+        return modelAndView;
+    }
 }
