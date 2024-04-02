@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -47,18 +48,18 @@ public class UserService {
         return getUserById(newUser.getId()).isPresent();
     }
 
-    public Boolean updateUser(Long id, String username, String userPassword, Integer age) {
-        Optional<User> user1 = userRepository.findById(id);
+    public Boolean updateUser(User user) {
+        Optional<User> user1 = userRepository.findById(user.getId());
         if (user1.isPresent()) {
             User user2 = user1.get();
-            if (username != null) {
-                user2.setUsername(username);
+            if (user.getUsername() != null) {
+                user2.setUsername(user.getUsername());
             }
-            if (userPassword != null) {
-                user2.setUserPassword(userPassword);
+            if (user.getUserPassword() != null) {
+                user2.setUserPassword(user.getUserPassword());
             }
-            if (age != null) {
-                user2.setAge(age);
+            if (user.getAge() != null) {
+                user2.setAge(user.getAge());
             }
             user2.setChanged(Timestamp.valueOf(LocalDateTime.now()));
             User updateUser = userRepository.saveAndFlush(user2);
@@ -67,11 +68,11 @@ public class UserService {
         return false;
     }
 
-    public List<User> getUsersAndSortByField(String field){
+    public List<User> getUsersAndSortByField(String field) {
         return userRepository.findAll(Sort.by(field));
     }
 
-    public List<User> getUsersWithPagination(int size, int page){
+    public List<User> getUsersWithPagination(int size, int page) {
         return userRepository.findAll(Pageable.ofSize(size).withPage(page)).getContent();
     }
 }

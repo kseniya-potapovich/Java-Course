@@ -4,27 +4,24 @@ import com.boot.springboot.exceptions.CustomValidException;
 import com.boot.springboot.model.User;
 import com.boot.springboot.model.dto.UserCreateDto;
 import com.boot.springboot.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
 
-@Controller // он используется в MVC сервисах, где есть страницы
+@RestController
 @RequestMapping("/user") // все методы этого контроллера начинаются с /user
 public class UserController {
     private UserService userService;
@@ -35,91 +32,46 @@ public class UserController {
     }
 
     @GetMapping
-    public ModelAndView getAllUsers(ModelAndView modelAndView) {
-        List<User> users = userService.getAllUsers();
-        modelAndView.setViewName(users.isEmpty() ? "empty" : "get_users");
-        modelAndView.addObject("users", users);
-        return modelAndView;
+    public ResponseEntity<List<User>> getAllUsers() {
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public String getUserById(@PathVariable Long id, ModelMap modelMap, HttpServletResponse httpServletResponse) { //@PathVariable - если мы хотим достать из пути
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
         Optional<User> user = userService.getUserById(id);
         if (user.isPresent()) {
-            modelMap.addAttribute("user", user.get());
-            httpServletResponse.setStatus(200);
-            return "get_user_by_id";
+            return new ResponseEntity<>(user.get(), HttpStatus.OK);
         }
-        httpServletResponse.setStatus(404);
-        return "empty";
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/{id}")
-    public String deleteUser(@PathVariable Long id, HttpServletResponse response) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable Long id) {
         if (userService.deleteUser(id)) {
-            response.setStatus(204);
-            return "success";
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            response.setStatus(409);
-            return "failure";
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 
     @PostMapping
-    public String createUser(@ModelAttribute @Valid UserCreateDto user, BindingResult bindingResult, HttpServletResponse response) {
+    public ResponseEntity<HttpStatus> createUser(@RequestBody @Valid UserCreateDto user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new CustomValidException(bindingResult.getAllErrors().toString());
         }
         if (userService.createUser(user)) {
-            response.setStatus(201);
-            return "success";
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } else {
-            response.setStatus(409);
-            return "failure";
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 
-    @PostMapping("/update")
-    public String updateUser(@RequestParam("id") Long id,
-                             @RequestParam("username") String username,
-                             @RequestParam("userPassword") String userPassword,
-                             @RequestParam("age") Integer age,
-                             HttpServletResponse response) {
-        if (userService.updateUser(id, username, userPassword, age)) {
-            response.setStatus(204);
-            return "success";
+    @PutMapping
+    public ResponseEntity<HttpStatus> updateUser(@RequestBody User user) {
+        if (userService.updateUser(user)) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            response.setStatus(409);
-            return "failure";
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-    }
-
-    @ExceptionHandler(CustomValidException.class)
-    public ModelAndView customValidExceptionHandler(Exception exception, HttpServletRequest request) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("error", exception);
-        modelAndView.addObject("url", request.getRequestURI());
-        modelAndView.setViewName("failure");
-        modelAndView.setStatus(HttpStatusCode.valueOf(400));
-        System.out.println(exception);
-        return modelAndView;
-    }
-
-    @GetMapping("/sort/{field}")
-    public ModelAndView getAllUsersAndSortByField(ModelAndView modelAndView, @PathVariable String field) {
-        List<User> users = userService.getUsersAndSortByField(field);
-        modelAndView.setViewName(users.isEmpty() ? "empty" : "get_users");
-        modelAndView.addObject("users", users);
-        modelAndView.setStatus(HttpStatusCode.valueOf(200));
-        return modelAndView;
-    }
-
-    @GetMapping("/paging/{size}/{page}")
-    public ModelAndView getAllUsersWithPagination(ModelAndView modelAndView, @PathVariable int size, @PathVariable int page) {
-        List<User> users = userService.getUsersWithPagination(size, page);
-        modelAndView.setViewName(users.isEmpty() ? "empty" : "get_users");
-        modelAndView.addObject("users", users);
-        modelAndView.setStatus(HttpStatusCode.valueOf(200));
-        return modelAndView;
     }
 }
