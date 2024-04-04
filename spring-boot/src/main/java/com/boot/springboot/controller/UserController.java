@@ -5,6 +5,7 @@ import com.boot.springboot.model.User;
 import com.boot.springboot.model.dto.UserCreateDto;
 import com.boot.springboot.service.UserService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequestMapping("/user") // все методы этого контроллера начинаются с /user
 public class UserController {
@@ -33,6 +35,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
+        log.info("Start method getAllUsers()");
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
