@@ -1,5 +1,7 @@
 package com.boot.springboot.controller;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -24,6 +26,7 @@ import java.nio.file.Paths;
 public class FileController {
     private final Path ROOT_FILE_PATH = Paths.get("data");
 
+   // @Hidden
     @PostMapping("/upload")
     public ResponseEntity<HttpStatus> upload(@RequestParam("file") MultipartFile file) {
         try {
@@ -35,6 +38,7 @@ public class FileController {
         return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
+    @Tag(name = "get methods")
     @GetMapping("/{filename}")
     public ResponseEntity<Resource> getFile(@PathVariable String filename) {
         Path path = ROOT_FILE_PATH.resolve(filename);

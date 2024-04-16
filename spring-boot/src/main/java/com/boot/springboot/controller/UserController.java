@@ -4,6 +4,9 @@ import com.boot.springboot.exceptions.CustomValidException;
 import com.boot.springboot.model.User;
 import com.boot.springboot.model.dto.UserCreateDto;
 import com.boot.springboot.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +36,15 @@ public class UserController {
         this.userService = userService;
     }
 
+    @Operation(summary = "get all users :)")
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
-        log.info("Start method getAllUsers()");
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
+    @Tag(name = "get methods")
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
         Optional<User> user = userService.getUserById(id);
         if (user.isPresent()) {
             return new ResponseEntity<>(user.get(), HttpStatus.OK);

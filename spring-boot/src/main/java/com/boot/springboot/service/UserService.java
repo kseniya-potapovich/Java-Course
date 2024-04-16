@@ -1,5 +1,6 @@
 package com.boot.springboot.service;
 
+import com.boot.springboot.aop.TimeAOP;
 import com.boot.springboot.model.User;
 import com.boot.springboot.model.dto.UserCreateDto;
 import com.boot.springboot.repository.UserRepository;
@@ -24,10 +25,12 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    @TimeAOP
     public List<User> getAllUsers() {
         return userRepository.customGetAll();
     }
 
+    @TimeAOP
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
     }
