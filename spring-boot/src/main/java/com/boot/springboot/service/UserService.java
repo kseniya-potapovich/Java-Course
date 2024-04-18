@@ -4,6 +4,8 @@ import com.boot.springboot.aop.TimeAOP;
 import com.boot.springboot.model.User;
 import com.boot.springboot.model.dto.UserCreateDto;
 import com.boot.springboot.repository.UserRepository;
+import com.boot.springboot.security.model.UserSecurity;
+import com.boot.springboot.security.repository.UserSecurityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,9 +23,12 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
 
+    private final UserSecurityRepository userSecurityRepository;
+
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserSecurityRepository userSecurityRepository) {
         this.userRepository = userRepository;
+        this.userSecurityRepository = userSecurityRepository;
     }
 
     @TimeAOP
@@ -43,7 +48,6 @@ public class UserService {
 
     public Boolean createUser(UserCreateDto userFromDto) {
         User user = new User();
-        user.setUserPassword(userFromDto.getUserPassword());
         user.setUsername(userFromDto.getUsername());
         user.setAge(userFromDto.getAge());
         user.setCreated(Timestamp.valueOf(LocalDateTime.now()));
@@ -58,9 +62,6 @@ public class UserService {
             User user2 = user1.get();
             if (user.getUsername() != null) {
                 user2.setUsername(user.getUsername());
-            }
-            if (user.getUserPassword() != null) {
-                user2.setUserPassword(user.getUserPassword());
             }
             if (user.getAge() != null) {
                 user2.setAge(user.getAge());
@@ -80,8 +81,11 @@ public class UserService {
         return userRepository.findAll(Pageable.ofSize(size).withPage(page)).getContent();
     }
 
-    public User getInfoAboutCurrentUser(String username) {
-        // System.out.println("Second example: " + SecurityContextHolder.getContext().getAuthentication().getName());
-        return userRepository.getUserByUsername(username);
+    public Optional<User> getInfoAboutCurrentUser(String username) {
+        Optional<UserSecurity> userSecurityOptional = userSecurityRepository.findByUserLogin(username);
+        if (userSecurityOptional.isEmpty()) {
+            return Optional.empty();
+        }
+        return userRepository.findById(userSecurityOptional.get().getUserId());
     }
 }

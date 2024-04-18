@@ -45,11 +45,8 @@ public class User {
     @NegativeOrZero - для цифр*/
     //@Pattern(regexp = "[a-z]{10}") - для регулярных выражений
 
-    @Column(name = "username", unique = true)
+    @Column(name = "username")
     private String username;
-
-    @Column(name = "user_password")
-    private String userPassword;
 
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)

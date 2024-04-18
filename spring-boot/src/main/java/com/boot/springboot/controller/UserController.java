@@ -46,11 +46,12 @@ public class UserController {
 
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/info")
-    public ResponseEntity<User> getInfoAboutCurrentUser(Principal principal){
-        //достать из SecurityContext юзера
-        return new ResponseEntity<>(userService.getInfoAboutCurrentUser(principal.getName()), HttpStatus.OK);
-        //из репо по username
-
+    public ResponseEntity<User> getInfoAboutCurrentUser(Principal principal) {
+        Optional<User> result = userService.getInfoAboutCurrentUser(principal.getName());
+        if (result.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(result.get(), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')") // hasAnyRole('...','...')

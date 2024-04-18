@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @OpenAPIDefinition(info = @Info(
         title = "TeachMeSkills_Application",
         description = "Learn Spring Boot",
-        contact = @Contact(name = "Shvarts",
+        contact = @Contact(name = "dimkaaaa",
                 url = "dimka.by",
                 email = "meme@mail.com")
 ))
