@@ -3,6 +3,7 @@ package com.boot.springboot.exceptions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,14 +13,20 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExceptionHandlerGlobal {
 
     @ExceptionHandler(value = {CustomValidException.class, jakarta.validation.ValidationException.class})
-    public HttpStatusCode customValidExceptionHandler(Exception exception) {
+    public ResponseEntity<HttpStatusCode> customValidExceptionHandler(Exception exception) {
         log.error("Valid exception: " + exception);
-        return HttpStatus.valueOf(400);
+        return new ResponseEntity<>(HttpStatus.valueOf(400));
     }
 
     @ExceptionHandler(value = UsernameNotFoundException.class)
-    public HttpStatusCode usernameNotFoundException(Exception exception) {
+    public ResponseEntity<HttpStatusCode> usernameNotFoundException(Exception exception) {
         log.error("Username not found: " + exception);
-        return HttpStatus.valueOf(401);
+        return new ResponseEntity<>(HttpStatus.valueOf(401));
+    }
+
+    @ExceptionHandler(value = SameUserInDatabase.class)
+    public ResponseEntity<HttpStatusCode> sameUserInDatabase(Exception exception) {
+        log.error(String.valueOf(exception));
+        return new ResponseEntity<>(HttpStatus.valueOf(409));
     }
 }
