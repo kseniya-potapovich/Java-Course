@@ -34,6 +34,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(new AntPathRequestMatcher("/user", "GET")).hasRole("ADMIN")
                                 .requestMatchers(new AntPathRequestMatcher("/security/registration", "POST")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/security/token", "POST")).permitAll()
                                 .anyRequest().authenticated())
                 .userDetailsService(customUserDetailService)
                 .httpBasic(Customizer.withDefaults())

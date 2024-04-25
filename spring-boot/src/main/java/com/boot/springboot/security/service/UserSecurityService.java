@@ -5,6 +5,7 @@ import com.boot.springboot.model.User;
 import com.boot.springboot.repository.UserRepository;
 import com.boot.springboot.security.model.Roles;
 import com.boot.springboot.security.model.UserSecurity;
+import com.boot.springboot.security.model.dto.AuthRequestDto;
 import com.boot.springboot.security.model.dto.RegistrationUserDto;
 import com.boot.springboot.security.repository.UserSecurityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,14 @@ public class UserSecurityService {
         userSecurity.setUserId(savedUser.getId());
         userSecurity.setIsBlocked(false);
         userSecurityRepository.save(userSecurity);
+    }
+
+    public Optional<String> generateToken(AuthRequestDto authRequestDto){
+        Optional<UserSecurity> security = userSecurityRepository.findByUserLogin(authRequestDto.getLogin());
+        if (security.isPresent()
+                && passwordEncoder.matches(authRequestDto.getPassword(), security.get().getUserPassword())){
+            return Optional.of("SUCCESS");
+        }
+        return Optional.empty();
     }
 }
