@@ -22,12 +22,14 @@ public class UserSecurityService {
     private final PasswordEncoder passwordEncoder;
     private final UserSecurityRepository userSecurityRepository;
     private final UserRepository userRepository;
+    private final JwtUtils jwtUtils;
 
     @Autowired
-    public UserSecurityService(PasswordEncoder passwordEncoder, UserSecurityRepository userSecurityRepository, UserRepository userRepository) {
+    public UserSecurityService(PasswordEncoder passwordEncoder, UserSecurityRepository userSecurityRepository, UserRepository userRepository, JwtUtils jwtUtils) {
         this.passwordEncoder = passwordEncoder;
         this.userSecurityRepository = userSecurityRepository;
         this.userRepository = userRepository;
+        this.jwtUtils = jwtUtils;
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -52,11 +54,10 @@ public class UserSecurityService {
         userSecurityRepository.save(userSecurity);
     }
 
-    public Optional<String> generateToken(AuthRequestDto authRequestDto){
+    public Optional<String> generateToken(AuthRequestDto authRequestDto) {
         Optional<UserSecurity> security = userSecurityRepository.findByUserLogin(authRequestDto.getLogin());
-        if (security.isPresent()
-                && passwordEncoder.matches(authRequestDto.getPassword(), security.get().getUserPassword())){
-            return Optional.of("SUCCESS");
+        if (security.isPresent() && passwordEncoder.matches(authRequestDto.getPassword(), security.get().getUserPassword())) {
+            return Optional.of(jwtUtils.generateJwtToken(authRequestDto.getLogin()));
         }
         return Optional.empty();
     }

@@ -6,6 +6,7 @@ import com.boot.springboot.model.dto.UserCreateDto;
 import com.boot.springboot.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
+@SecurityRequirement(name = "Bearer Authentication")
 @Slf4j
 @RestController
 @RequestMapping("/user") // все методы этого контроллера начинаются с /user

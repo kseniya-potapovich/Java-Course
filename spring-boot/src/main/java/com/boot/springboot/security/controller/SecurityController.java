@@ -1,4 +1,4 @@
-package com.boot.springboot.security;
+package com.boot.springboot.security.controller;
 
 import com.boot.springboot.security.model.dto.AuthRequestDto;
 import com.boot.springboot.security.model.dto.AuthResponseDto;

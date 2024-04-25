@@ -2,6 +2,7 @@ package com.boot.springboot.controller;
 
 import com.boot.springboot.model.User;
 import com.boot.springboot.model.dto.UserCreateDto;
+import com.boot.springboot.security.filter.JwtFilter;
 import com.boot.springboot.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -30,11 +32,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(value = UserController.class)
-//@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureMockMvc(addFilters = false)
 public class UserControllerTest {
 
     @MockBean
     UserService userService;
+
+    @MockBean
+    private JwtFilter jwtFilter;
 
     @Autowired
     MockMvc mockMvc; //для иметации запросов
@@ -107,9 +112,6 @@ public class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isInternalServerError());
     }*/
-
-    /*@MockBean
-    private JwtAuthenticationFilter jwtAuthenticationFilter;*/
 
 
 }
